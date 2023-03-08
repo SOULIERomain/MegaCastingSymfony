@@ -8,18 +8,19 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CiviliteRepository::class)]
+#[ORM\Table(name: "Civilite")]
 class Civilite
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'Identifiant')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $LibelleCourt = null;
+    #[ORM\Column(length: 50, name: "LibelleCourt")]
+    private ?string $libelleCourt = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $LibelleLong = null;
+    #[ORM\Column(length: 50, name: "LibelleLong")]
+    private ?string $libelleLong = null;
 
     #[ORM\ManyToMany(targetEntity: OffreCasting::class, mappedBy: 'IdentifiantCivilite')]
     private Collection $offreCastings;

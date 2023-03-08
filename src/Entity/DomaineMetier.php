@@ -8,20 +8,21 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DomaineMetierRepository::class)]
+#[ORM\Table(name: "DomaineMetier")]
 class DomaineMetier
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'Identifiant')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Libelle = null;
+    #[ORM\Column(length: 50, name: 'Libelle')]
+    private ?string $libelle = null;
 
-    #[ORM\Column(length: 150)]
-    private ?string $Description = null;
+    #[ORM\Column(length: 50, name: 'Description')]
+    private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'IdentifiantDomaineMetier', targetEntity: Metier::class)]
+    #[ORM\OneToMany(mappedBy: 'domainemetier', targetEntity: Metier::class)]
     private Collection $metiers;
 
     public function __construct()

@@ -6,18 +6,19 @@ use App\Repository\ConseilRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ConseilRepository::class)]
+#[ORM\Table(name: "Conseil")]
 class Conseil
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'Identifiant')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Libelle = null;
+    #[ORM\Column(length: 50, name: "Libelle")]
+    private ?string $libelle = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Contenu = null;
+    #[ORM\Column(length: 50, name: "Contenu")]
+    private ?string $contenu = null;
 
     public function getId(): ?int
     {

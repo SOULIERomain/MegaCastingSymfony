@@ -8,45 +8,47 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
+#[ORM\Table(name: "Client")]
 class Client
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'Identifiant')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Libelle = null;
+    #[ORM\Column(length: 50, name: "Libelle")]
+    private ?string $libelle = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Nom = null;
+    #[ORM\Column(length: 50, name: "Nom")]
+    private ?string $nom = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Prenom = null;
+    #[ORM\Column(length: 50, name: "Prenom")]
+    private ?string $prenom = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Ville = null;
+    #[ORM\Column(length: 50, name: "Ville")]
+    private ?string $ville = null;
 
-    #[ORM\Column(length: 13, nullable: true)]
-    private ?string $Tel = null;
+    #[ORM\Column(nullable: true, name: "Telephone")]
+    private ?int $telephone = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Email = null;
+    #[ORM\Column(length: 50, name: "Email")]
+    private ?string $email = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Siret = null;
+    #[ORM\Column(length: 50, name: "Siret")]
+    private ?string $siret = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Login = null;
+    #[ORM\Column(length: 50, name: "Login")]
+    private ?string $login = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Password = null;
+    #[ORM\Column(length: 50, name: "Password")]
+    private ?string $password = null;
 
     #[ORM\OneToMany(mappedBy: 'IdentifiantClient', targetEntity: OffreCasting::class)]
     private Collection $offreCastings;
 
-    #[ORM\ManyToOne(inversedBy: 'clients')]
-    private ?Pack $IdentifiantPack = null;
+    #[ORM\ManyToOne(inversedBy: 'clients', targetEntity: Pack::class)]
+    #[ORM\JoinColumn(name: 'IdentifiantPack', referencedColumnName: 'Identifiant')]
+    private ?Pack $pack = null;
 
     public function __construct()
     {

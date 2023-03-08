@@ -9,49 +9,54 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OffreCastingRepository::class)]
+#[ORM\Table(name: "OffreCasting")]
 class OffreCasting
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'Identifiant')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Libelle = null;
+    #[ORM\Column(length: 50, name: "Libelle")]
+    private ?string $libelle = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
-    private ?string $Reference = null;
+    #[ORM\Column(length: 50, nullable: true, name: "Reference")]
+    private ?string $reference = null;
 
-    #[ORM\Column]
-    private ?int $TypeContrat = null;
+    #[ORM\Column(name: "TypeContrat")]
+    private ?int $typeContrat = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $DateDebutDiffusion = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE, name: "DateDebutDiffusion")]
+    private ?\DateTimeInterface $dateDebutDiffusion = null;
 
-    #[ORM\Column]
-    private ?int $DureeDiffusion = null;
+    #[ORM\Column(name: "DureeDiffusion")]
+    private ?int $dureeDiffusion = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $DateDebutContrat = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE, name: "DateDebutContrat")]
+    private ?\DateTimeInterface $dateDebutContrat = null;
 
-    #[ORM\Column]
-    private ?int $NbPoste = null;
+    #[ORM\Column(name: "NbPoste")]
+    private ?int $nbPoste = null;
 
-    #[ORM\Column(length: 500, nullable: true)]
-    private ?string $Description = null;
+    #[ORM\Column(length: 500, nullable: true, name: "Description")]
+    private ?string $description = null;
 
+    #[ORM\JoinTable(name: 'OffreCastingCivilite')]
+    #[ORM\JoinColumn(name: 'IdentifiantCivilite', referencedColumnName: 'Identifiant')]
+    #[ORM\InverseJoinColumn(name: 'IdentifiantOffreCasting', referencedColumnName: 'Identifiant')]
     #[ORM\ManyToMany(targetEntity: Civilite::class, inversedBy: 'offreCastings')]
     private Collection $IdentifiantCivilite;
 
     #[ORM\ManyToOne(inversedBy: 'offreCastings')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'IdentifiantClient', referencedColumnName: 'Identifiant', nullable: false)]
     private ?Client $IdentifiantClient = null;
 
     #[ORM\ManyToOne(inversedBy: 'offreCastings')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'IdentifiantMetier', referencedColumnName: 'Identifiant', nullable: false)]
     private ?Metier $IdentifiantMetier = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(name: 'IdentifiantTypeContrat', referencedColumnName: 'Identifiant')]
     private ?TypeContrat $IdentifiantTypeContrat = null;
 
     public function __construct()

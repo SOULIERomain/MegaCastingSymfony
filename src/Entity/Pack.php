@@ -8,23 +8,24 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PackRepository::class)]
+#[ORM\Table(name: "Pack")]
 class Pack
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'Identifiant')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Libelle = null;
+    #[ORM\Column(length: 50, name: "Libelle")]
+    private ?string $libelle = null;
 
-    #[ORM\Column]
-    private ?int $NombreOffres = null;
+    #[ORM\Column(name: "NombreOffres")]
+    private ?int $nombreOffres = null;
 
-    #[ORM\Column(length: 10)]
-    private ?string $Tarif = null;
+    #[ORM\Column(length: 10, name: "Tarif")]
+    private ?string $tarif = null;
 
-    #[ORM\OneToMany(mappedBy: 'IdentifiantPack', targetEntity: Client::class)]
+    #[ORM\OneToMany(mappedBy: 'pack', targetEntity: Client::class)]
     private Collection $clients;
 
     public function __construct()

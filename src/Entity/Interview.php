@@ -6,18 +6,19 @@ use App\Repository\InterviewRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InterviewRepository::class)]
+#[ORM\Table(name: "Interview")]
 class Interview
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'Identifiant')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Libelle = null;
+    #[ORM\Column(length: 50, name: "Libelle")]
+    private ?string $libelle = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Url = null;
+    #[ORM\Column(length: 50, name: "Url")]
+    private ?string $url = null;
 
     public function getId(): ?int
     {
