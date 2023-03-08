@@ -22,7 +22,7 @@ class DomaineMetier
     #[ORM\Column(length: 50, name: 'Description')]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'domainemetier', targetEntity: Metier::class)]
+    #[ORM\OneToMany(mappedBy: 'domaineMetier', targetEntity: Metier::class)]
     private Collection $metiers;
 
     public function __construct()
@@ -37,24 +37,24 @@ class DomaineMetier
 
     public function getLibelle(): ?string
     {
-        return $this->Libelle;
+        return $this->libelle;
     }
 
-    public function setLibelle(string $Libelle): self
+    public function setLibelle(string $libelle): self
     {
-        $this->Libelle = $Libelle;
+        $this->libelle = $libelle;
 
         return $this;
     }
 
     public function getDescription(): ?string
     {
-        return $this->Description;
+        return $this->description;
     }
 
-    public function setDescription(string $Description): self
+    public function setDescription(string $description): self
     {
-        $this->Description = $Description;
+        $this->description = $description;
 
         return $this;
     }
@@ -69,9 +69,10 @@ class DomaineMetier
 
     public function addMetier(Metier $metier): self
     {
+
         if (!$this->metiers->contains($metier)) {
             $this->metiers->add($metier);
-            $metier->setIdentifiantDomaineMetier($this);
+            $metier->setDomaineMetier($this);
         }
 
         return $this;
@@ -81,8 +82,8 @@ class DomaineMetier
     {
         if ($this->metiers->removeElement($metier)) {
             // set the owning side to null (unless already changed)
-            if ($metier->getIdentifiantDomaineMetier() === $this) {
-                $metier->setIdentifiantDomaineMetier(null);
+            if ($metier->getDomaineMetier() === $this) {
+                $metier->setDomaineMetier(null);
             }
         }
 

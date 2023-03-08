@@ -23,9 +23,6 @@ class OffreCasting
     #[ORM\Column(length: 50, nullable: true, name: "Reference")]
     private ?string $reference = null;
 
-    #[ORM\Column(name: "TypeContrat")]
-    private ?int $typeContrat = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE, name: "DateDebutDiffusion")]
     private ?\DateTimeInterface $dateDebutDiffusion = null;
 
@@ -42,26 +39,26 @@ class OffreCasting
     private ?string $description = null;
 
     #[ORM\JoinTable(name: 'OffreCastingCivilite')]
-    #[ORM\JoinColumn(name: 'IdentifiantCivilite', referencedColumnName: 'Identifiant')]
+    #[ORM\JoinColumn(name: 'civilite', referencedColumnName: 'Identifiant')]
     #[ORM\InverseJoinColumn(name: 'IdentifiantOffreCasting', referencedColumnName: 'Identifiant')]
     #[ORM\ManyToMany(targetEntity: Civilite::class, inversedBy: 'offreCastings')]
-    private Collection $IdentifiantCivilite;
+    private Collection $civilite;
 
     #[ORM\ManyToOne(inversedBy: 'offreCastings')]
-    #[ORM\JoinColumn(name: 'IdentifiantClient', referencedColumnName: 'Identifiant', nullable: false)]
-    private ?Client $IdentifiantClient = null;
+    #[ORM\JoinColumn(name: 'client', referencedColumnName: 'Identifiant', nullable: false)]
+    private ?Client $client = null;
 
     #[ORM\ManyToOne(inversedBy: 'offreCastings')]
-    #[ORM\JoinColumn(name: 'IdentifiantMetier', referencedColumnName: 'Identifiant', nullable: false)]
-    private ?Metier $IdentifiantMetier = null;
+    #[ORM\JoinColumn(name: 'metier', referencedColumnName: 'Identifiant', nullable: false)]
+    private ?Metier $metier = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(name: 'IdentifiantTypeContrat', referencedColumnName: 'Identifiant')]
-    private ?TypeContrat $IdentifiantTypeContrat = null;
+    #[ORM\JoinColumn(name: 'typeContrat', referencedColumnName: 'Identifiant')]
+    private ?TypeContrat $typeContrat = null;
 
     public function __construct()
     {
-        $this->IdentifiantCivilite = new ArrayCollection();
+        $this->civilite = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,18 +86,6 @@ class OffreCasting
     public function setReference(?string $Reference): self
     {
         $this->Reference = $Reference;
-
-        return $this;
-    }
-
-    public function getTypeContrat(): ?int
-    {
-        return $this->TypeContrat;
-    }
-
-    public function setTypeContrat(int $TypeContrat): self
-    {
-        $this->TypeContrat = $TypeContrat;
 
         return $this;
     }
@@ -168,15 +153,15 @@ class OffreCasting
     /**
      * @return Collection<int, Civilite>
      */
-    public function getIdentifiantCivilite(): Collection
+    public function getCivilite(): Collection
     {
-        return $this->IdentifiantCivilite;
+        return $this->civilite;
     }
 
     public function addIdentifiantCivilite(Civilite $identifiantCivilite): self
     {
-        if (!$this->IdentifiantCivilite->contains($identifiantCivilite)) {
-            $this->IdentifiantCivilite->add($identifiantCivilite);
+        if (!$this->civilite->contains($identifiantCivilite)) {
+            $this->civilite->add($identifiantCivilite);
         }
 
         return $this;
@@ -184,43 +169,43 @@ class OffreCasting
 
     public function removeIdentifiantCivilite(Civilite $identifiantCivilite): self
     {
-        $this->IdentifiantCivilite->removeElement($identifiantCivilite);
+        $this->civilite->removeElement($identifiantCivilite);
 
         return $this;
     }
 
-    public function getIdentifiantClient(): ?Client
+    public function getClient(): ?Client
     {
-        return $this->IdentifiantClient;
+        return $this->client;
     }
 
-    public function setIdentifiantClient(?Client $IdentifiantClient): self
+    public function setClient(?Client $client): self
     {
-        $this->IdentifiantClient = $IdentifiantClient;
+        $this->client = $client;
 
         return $this;
     }
 
-    public function getIdentifiantMetier(): ?Metier
+    public function getMetier(): ?Metier
     {
-        return $this->IdentifiantMetier;
+        return $this->metier;
     }
 
-    public function setIdentifiantMetier(?Metier $IdentifiantMetier): self
+    public function setMetier(?Metier $metier): self
     {
-        $this->IdentifiantMetier = $IdentifiantMetier;
+        $this->metier = $metier;
 
         return $this;
     }
 
-    public function getIdentifiantTypeContrat(): ?TypeContrat
+    public function getTypeContrat(): ?TypeContrat
     {
-        return $this->IdentifiantTypeContrat;
+        return $this->typeContrat;
     }
 
-    public function setIdentifiantTypeContrat(?TypeContrat $IdentifiantTypeContrat): self
+    public function setTypeContrat(?TypeContrat $typeContrat): self
     {
-        $this->IdentifiantTypeContrat = $IdentifiantTypeContrat;
+        $this->typeContrat = $typeContrat;
 
         return $this;
     }

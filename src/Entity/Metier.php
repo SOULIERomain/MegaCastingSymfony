@@ -17,17 +17,17 @@ class Metier
     private ?int $id = null;
 
     #[ORM\Column(length: 50, name: "Libelle")]
-    private ?string $Libelle = null;
+    private ?string $libelle = null;
 
     #[ORM\Column(length: 50, name: "Description")]
-    private ?string $Description = null;
+    private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'IdentifiantMetier', targetEntity: OffreCasting::class)]
+    #[ORM\OneToMany(mappedBy: 'metier', targetEntity: OffreCasting::class)]
     private Collection $offreCastings;
 
     #[ORM\ManyToOne(inversedBy: 'metiers', targetEntity: DomaineMetier::class)]
     #[ORM\JoinColumn(name: 'IdentifiantDomaineMetier', referencedColumnName: 'Identifiant')]
-    private ?DomaineMetier $domainemetier = null;
+    private ?DomaineMetier $domaineMetier = null;
 
     public function __construct()
     {
@@ -41,24 +41,24 @@ class Metier
 
     public function getLibelle(): ?string
     {
-        return $this->Libelle;
+        return $this->libelle;
     }
 
-    public function setLibelle(string $Libelle): self
+    public function setLibelle(string $libelle): self
     {
-        $this->Libelle = $Libelle;
+        $this->libelle = $libelle;
 
         return $this;
     }
 
     public function getDescription(): ?string
     {
-        return $this->Description;
+        return $this->description;
     }
 
-    public function setDescription(string $Description): self
+    public function setDescription(string $description): self
     {
-        $this->Description = $Description;
+        $this->description = $description;
 
         return $this;
     }
@@ -75,7 +75,7 @@ class Metier
     {
         if (!$this->offreCastings->contains($offreCasting)) {
             $this->offreCastings->add($offreCasting);
-            $offreCasting->setIdentifiantMetier($this);
+            $offreCasting->setMetier($this);
         }
 
         return $this;
@@ -85,22 +85,22 @@ class Metier
     {
         if ($this->offreCastings->removeElement($offreCasting)) {
             // set the owning side to null (unless already changed)
-            if ($offreCasting->getIdentifiantMetier() === $this) {
-                $offreCasting->setIdentifiantMetier(null);
+            if ($offreCasting->getMetier() === $this) {
+                $offreCasting->setMetier(null);
             }
         }
 
         return $this;
     }
 
-    public function getIdentifiantDomaineMetier(): ?DomaineMetier
+    public function getDomaineMetier(): ?DomaineMetier
     {
-        return $this->IdentifiantDomaineMetier;
+        return $this->domaineMetier;
     }
 
-    public function setIdentifiantDomaineMetier(?DomaineMetier $IdentifiantDomaineMetier): self
+    public function setDomaineMetier(?DomaineMetier $domaineMetier): self
     {
-        $this->IdentifiantDomaineMetier = $IdentifiantDomaineMetier;
+        $this->domaineMetier = $domaineMetier;
 
         return $this;
     }

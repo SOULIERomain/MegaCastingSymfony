@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230308125505 extends AbstractMigration
+final class Version20230308134246 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -28,22 +28,22 @@ final class Version20230308125505 extends AbstractMigration
         $this->addSql('CREATE TABLE Interview (Identifiant INT IDENTITY NOT NULL, Libelle NVARCHAR(50) NOT NULL, Url NVARCHAR(50) NOT NULL, PRIMARY KEY (Identifiant))');
         $this->addSql('CREATE TABLE Metier (Identifiant INT IDENTITY NOT NULL, Libelle NVARCHAR(50) NOT NULL, Description NVARCHAR(50) NOT NULL, IdentifiantDomaineMetier INT, PRIMARY KEY (Identifiant))');
         $this->addSql('CREATE INDEX IDX_560C08BAE52D612A ON Metier (IdentifiantDomaineMetier)');
-        $this->addSql('CREATE TABLE OffreCasting (Identifiant INT IDENTITY NOT NULL, Libelle NVARCHAR(50) NOT NULL, Reference NVARCHAR(50), TypeContrat INT NOT NULL, DateDebutDiffusion DATE NOT NULL, DureeDiffusion INT NOT NULL, DateDebutContrat DATE NOT NULL, NbPoste INT NOT NULL, Description NVARCHAR(500), IdentifiantClient INT NOT NULL, IdentifiantMetier INT NOT NULL, IdentifiantTypeContrat INT, PRIMARY KEY (Identifiant))');
-        $this->addSql('CREATE INDEX IDX_982EDF9C93C1B089 ON OffreCasting (IdentifiantClient)');
-        $this->addSql('CREATE INDEX IDX_982EDF9C525B950 ON OffreCasting (IdentifiantMetier)');
-        $this->addSql('CREATE INDEX IDX_982EDF9C9251261A ON OffreCasting (IdentifiantTypeContrat)');
-        $this->addSql('CREATE TABLE OffreCastingCivilite (IdentifiantCivilite INT NOT NULL, IdentifiantOffreCasting INT NOT NULL, PRIMARY KEY (IdentifiantCivilite, IdentifiantOffreCasting))');
-        $this->addSql('CREATE INDEX IDX_2C4EA305CDCDB2D5 ON OffreCastingCivilite (IdentifiantCivilite)');
+        $this->addSql('CREATE TABLE OffreCasting (client INT NOT NULL, metier INT NOT NULL, Identifiant INT IDENTITY NOT NULL, Libelle NVARCHAR(50) NOT NULL, Reference NVARCHAR(50), DateDebutDiffusion DATE NOT NULL, DureeDiffusion INT NOT NULL, DateDebutContrat DATE NOT NULL, NbPoste INT NOT NULL, Description NVARCHAR(500), typeContrat INT, PRIMARY KEY (Identifiant))');
+        $this->addSql('CREATE INDEX IDX_982EDF9CC7440455 ON OffreCasting (client)');
+        $this->addSql('CREATE INDEX IDX_982EDF9C51A00D8C ON OffreCasting (metier)');
+        $this->addSql('CREATE INDEX IDX_982EDF9C756D2CB4 ON OffreCasting (typeContrat)');
+        $this->addSql('CREATE TABLE OffreCastingCivilite (civilite INT NOT NULL, IdentifiantOffreCasting INT NOT NULL, PRIMARY KEY (civilite, IdentifiantOffreCasting))');
+        $this->addSql('CREATE INDEX IDX_2C4EA3052C4C1BD6 ON OffreCastingCivilite (civilite)');
         $this->addSql('CREATE INDEX IDX_2C4EA305B196B681 ON OffreCastingCivilite (IdentifiantOffreCasting)');
         $this->addSql('CREATE TABLE Pack (Identifiant INT IDENTITY NOT NULL, Libelle NVARCHAR(50) NOT NULL, NombreOffres INT NOT NULL, Tarif NVARCHAR(10) NOT NULL, PRIMARY KEY (Identifiant))');
         $this->addSql('CREATE TABLE PartenaireDiffusion (Identifiant INT IDENTITY NOT NULL, Libelle NVARCHAR(50) NOT NULL, Tel NVARCHAR(13) NOT NULL, Mail NVARCHAR(50) NOT NULL, PRIMARY KEY (Identifiant))');
         $this->addSql('CREATE TABLE TypeContrat (Identifiant INT IDENTITY NOT NULL, Libelle NVARCHAR(50) NOT NULL, PRIMARY KEY (Identifiant))');
         $this->addSql('ALTER TABLE Client ADD CONSTRAINT FK_C0E80163AA85B59C FOREIGN KEY (IdentifiantPack) REFERENCES Pack (Identifiant)');
         $this->addSql('ALTER TABLE Metier ADD CONSTRAINT FK_560C08BAE52D612A FOREIGN KEY (IdentifiantDomaineMetier) REFERENCES DomaineMetier (Identifiant)');
-        $this->addSql('ALTER TABLE OffreCasting ADD CONSTRAINT FK_982EDF9C93C1B089 FOREIGN KEY (IdentifiantClient) REFERENCES Client (Identifiant)');
-        $this->addSql('ALTER TABLE OffreCasting ADD CONSTRAINT FK_982EDF9C525B950 FOREIGN KEY (IdentifiantMetier) REFERENCES Metier (Identifiant)');
-        $this->addSql('ALTER TABLE OffreCasting ADD CONSTRAINT FK_982EDF9C9251261A FOREIGN KEY (IdentifiantTypeContrat) REFERENCES TypeContrat (Identifiant)');
-        $this->addSql('ALTER TABLE OffreCastingCivilite ADD CONSTRAINT FK_2C4EA305CDCDB2D5 FOREIGN KEY (IdentifiantCivilite) REFERENCES OffreCasting (Identifiant)');
+        $this->addSql('ALTER TABLE OffreCasting ADD CONSTRAINT FK_982EDF9CC7440455 FOREIGN KEY (client) REFERENCES Client (Identifiant)');
+        $this->addSql('ALTER TABLE OffreCasting ADD CONSTRAINT FK_982EDF9C51A00D8C FOREIGN KEY (metier) REFERENCES Metier (Identifiant)');
+        $this->addSql('ALTER TABLE OffreCasting ADD CONSTRAINT FK_982EDF9C756D2CB4 FOREIGN KEY (typeContrat) REFERENCES TypeContrat (Identifiant)');
+        $this->addSql('ALTER TABLE OffreCastingCivilite ADD CONSTRAINT FK_2C4EA3052C4C1BD6 FOREIGN KEY (civilite) REFERENCES OffreCasting (Identifiant)');
         $this->addSql('ALTER TABLE OffreCastingCivilite ADD CONSTRAINT FK_2C4EA305B196B681 FOREIGN KEY (IdentifiantOffreCasting) REFERENCES Civilite (Identifiant)');
     }
 
@@ -62,10 +62,10 @@ final class Version20230308125505 extends AbstractMigration
         $this->addSql('CREATE SCHEMA dbo');
         $this->addSql('ALTER TABLE Client DROP CONSTRAINT FK_C0E80163AA85B59C');
         $this->addSql('ALTER TABLE Metier DROP CONSTRAINT FK_560C08BAE52D612A');
-        $this->addSql('ALTER TABLE OffreCasting DROP CONSTRAINT FK_982EDF9C93C1B089');
-        $this->addSql('ALTER TABLE OffreCasting DROP CONSTRAINT FK_982EDF9C525B950');
-        $this->addSql('ALTER TABLE OffreCasting DROP CONSTRAINT FK_982EDF9C9251261A');
-        $this->addSql('ALTER TABLE OffreCastingCivilite DROP CONSTRAINT FK_2C4EA305CDCDB2D5');
+        $this->addSql('ALTER TABLE OffreCasting DROP CONSTRAINT FK_982EDF9CC7440455');
+        $this->addSql('ALTER TABLE OffreCasting DROP CONSTRAINT FK_982EDF9C51A00D8C');
+        $this->addSql('ALTER TABLE OffreCasting DROP CONSTRAINT FK_982EDF9C756D2CB4');
+        $this->addSql('ALTER TABLE OffreCastingCivilite DROP CONSTRAINT FK_2C4EA3052C4C1BD6');
         $this->addSql('ALTER TABLE OffreCastingCivilite DROP CONSTRAINT FK_2C4EA305B196B681');
         $this->addSql('DROP TABLE Civilite');
         $this->addSql('DROP TABLE Client');

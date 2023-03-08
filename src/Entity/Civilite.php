@@ -22,7 +22,7 @@ class Civilite
     #[ORM\Column(length: 50, name: "LibelleLong")]
     private ?string $libelleLong = null;
 
-    #[ORM\ManyToMany(targetEntity: OffreCasting::class, mappedBy: 'IdentifiantCivilite')]
+    #[ORM\ManyToMany(targetEntity: OffreCasting::class, mappedBy: 'civilite')]
     private Collection $offreCastings;
 
     public function __construct()

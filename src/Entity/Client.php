@@ -43,7 +43,7 @@ class Client
     #[ORM\Column(length: 50, name: "Password")]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'IdentifiantClient', targetEntity: OffreCasting::class)]
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: OffreCasting::class)]
     private Collection $offreCastings;
 
     #[ORM\ManyToOne(inversedBy: 'clients', targetEntity: Pack::class)]
@@ -180,7 +180,7 @@ class Client
     {
         if (!$this->offreCastings->contains($offreCasting)) {
             $this->offreCastings->add($offreCasting);
-            $offreCasting->setIdentifiantClient($this);
+            $offreCasting->setClient($this);
         }
 
         return $this;
@@ -190,8 +190,8 @@ class Client
     {
         if ($this->offreCastings->removeElement($offreCasting)) {
             // set the owning side to null (unless already changed)
-            if ($offreCasting->getIdentifiantClient() === $this) {
-                $offreCasting->setIdentifiantClient(null);
+            if ($offreCasting->getClient() === $this) {
+                $offreCasting->setClient(null);
             }
         }
 
