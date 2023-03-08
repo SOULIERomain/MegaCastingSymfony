@@ -43,6 +43,17 @@ class OffreCasting
     #[ORM\ManyToMany(targetEntity: Civilite::class, inversedBy: 'offreCastings')]
     private Collection $IdentifiantCivilite;
 
+    #[ORM\ManyToOne(inversedBy: 'offreCastings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Client $IdentifiantClient = null;
+
+    #[ORM\ManyToOne(inversedBy: 'offreCastings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Metier $IdentifiantMetier = null;
+
+    #[ORM\ManyToOne]
+    private ?TypeContrat $IdentifiantTypeContrat = null;
+
     public function __construct()
     {
         $this->IdentifiantCivilite = new ArrayCollection();
@@ -169,6 +180,42 @@ class OffreCasting
     public function removeIdentifiantCivilite(Civilite $identifiantCivilite): self
     {
         $this->IdentifiantCivilite->removeElement($identifiantCivilite);
+
+        return $this;
+    }
+
+    public function getIdentifiantClient(): ?Client
+    {
+        return $this->IdentifiantClient;
+    }
+
+    public function setIdentifiantClient(?Client $IdentifiantClient): self
+    {
+        $this->IdentifiantClient = $IdentifiantClient;
+
+        return $this;
+    }
+
+    public function getIdentifiantMetier(): ?Metier
+    {
+        return $this->IdentifiantMetier;
+    }
+
+    public function setIdentifiantMetier(?Metier $IdentifiantMetier): self
+    {
+        $this->IdentifiantMetier = $IdentifiantMetier;
+
+        return $this;
+    }
+
+    public function getIdentifiantTypeContrat(): ?TypeContrat
+    {
+        return $this->IdentifiantTypeContrat;
+    }
+
+    public function setIdentifiantTypeContrat(?TypeContrat $IdentifiantTypeContrat): self
+    {
+        $this->IdentifiantTypeContrat = $IdentifiantTypeContrat;
 
         return $this;
     }

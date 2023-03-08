@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
@@ -39,6 +41,17 @@ class Client
 
     #[ORM\Column(length: 50)]
     private ?string $Password = null;
+
+    #[ORM\OneToMany(mappedBy: 'IdentifiantClient', targetEntity: OffreCasting::class)]
+    private Collection $offreCastings;
+
+    #[ORM\ManyToOne(inversedBy: 'clients')]
+    private ?Pack $IdentifiantPack = null;
+
+    public function __construct()
+    {
+        $this->offreCastings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -149,6 +162,48 @@ class Client
     public function setPassword(string $Password): self
     {
         $this->Password = $Password;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OffreCasting>
+     */
+    public function getOffreCastings(): Collection
+    {
+        return $this->offreCastings;
+    }
+
+    public function addOffreCasting(OffreCasting $offreCasting): self
+    {
+        if (!$this->offreCastings->contains($offreCasting)) {
+            $this->offreCastings->add($offreCasting);
+            $offreCasting->setIdentifiantClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffreCasting(OffreCasting $offreCasting): self
+    {
+        if ($this->offreCastings->removeElement($offreCasting)) {
+            // set the owning side to null (unless already changed)
+            if ($offreCasting->getIdentifiantClient() === $this) {
+                $offreCasting->setIdentifiantClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getIdentifiantPack(): ?Pack
+    {
+        return $this->IdentifiantPack;
+    }
+
+    public function setIdentifiantPack(?Pack $IdentifiantPack): self
+    {
+        $this->IdentifiantPack = $IdentifiantPack;
 
         return $this;
     }
